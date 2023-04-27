@@ -2,7 +2,7 @@
 
 <h4 align="center"><b>Filter list of subdomains by level.</b></h4><br>
 
-![image](https://user-images.githubusercontent.com/72344025/234941323-5150cf4a-e3e3-403c-90d3-a213c1fbb686.png)
+![image](https://user-images.githubusercontent.com/72344025/234942102-74d5cf10-b582-4278-9645-81d5de770980.png)
 
 ## Installation
 ```
@@ -27,7 +27,7 @@ $ cat subs.txt | dlevel -l 8 -f 2
 h2a4.n1.ips.mtn.co.ugmut-pts35k-1.mtn.co.ug
 h1bbd.n2.ips.mtn.co.ugmut-pts35k-1.mtn.co.ug
 
-# All Highest Level subdomains
+# All Highest Level subdomains -t not work with other options
 $ cat subs.txt | dlevel -t
 autodiscover.areeba.com.gnwimax-dns5.areeba.com.gn
 wimax-dns0.areeba.com.gnequitygroup.africadnsmaster.hotmtnpromo.com
