@@ -10,7 +10,7 @@ git clone https://github.com/rix4uni/dlevel.git && cd dlevel && chmod +x dlevel 
 ```
 
 ## Usage
-```
+```bash
 # Level 1, all subdomains
 $ cat subs.txt | dlevel -l 1
 mtnairborn.com
