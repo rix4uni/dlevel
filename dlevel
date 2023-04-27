@@ -1,0 +1,37 @@
+#!/bin/bash
+
+while getopts "l:f:t" opt; do
+  case ${opt} in
+    l ) level=$OPTARG ;;
+    f ) count=$OPTARG ;;
+    t ) max_subdomains=true ;;
+    \? ) echo "Invalid option: -$OPTARG" >&2
+         exit 1 ;;
+    : ) echo "Option -$OPTARG requires an argument." >&2
+         exit 1 ;;
+  esac
+done
+
+# Set default values if options are not provided
+level=${level:-0}
+count=${count:-0}
+
+# Build the regex pattern dynamically based on the level
+pattern="^[^\.]*"
+for (( i=1; i<=$level; i++ )); do
+  pattern+="\.[^\.]*"
+done
+pattern+="\$"
+
+# Use grep to select URLs that match the pattern
+if [ -z "$max_subdomains" ]; then
+  # Print URLs that match the pattern
+  if [ $count -eq 0 ]; then
+    grep --color=never -E "$pattern"
+  else
+    grep --color=never -E "$pattern" | head -n $count
+  fi
+else
+  # Print the URL(s) with the maximum number of subdomains
+  awk -F. '{if (NF-1>=max) {max=NF-1; urls[max]=urls[max] $0 ORS}} END{printf "%s", urls[max]}'
+fi
