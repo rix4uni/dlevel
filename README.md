@@ -55,24 +55,24 @@ target.com
 admin.target.com
 
 # Level 1, Single level
-$ cat subs.txt | go run dlevel.go --silent --level 1
+$ cat subs.txt | dlevel --silent --level 1
 example.com
 target.com
 
 # Level 2 and Level 3, Multiple levels comma-separated
-$ cat subs.txt | go run dlevel.go --silent --level 2,3
+$ cat subs.txt | dlevel --silent --level 2,3
 prod.target.com
 admin.target.com
 admin.prod.target.com
 
 # Level 3 and Level 2, Multiple levels comma-separated
-$ cat subs.txt | go run dlevel.go --silent --level 3,2
+$ cat subs.txt | dlevel --silent --level 3,2
 admin.prod.target.com
 prod.target.com
 admin.target.com
 
 # Print subdomains from max dots to min dots
-$ cat subs.txt | go run dlevel.go --silent --max-level
+$ cat subs.txt | dlevel --silent --max-level
 admin.prod.jenkins.grafana.api.support.login.target.com
 admin.prod.jenkins.grafana.api.support.target.com
 admin.prod.jenkins.grafana.api.target.com
@@ -85,7 +85,7 @@ example.com
 target.com
 
 # Print subdomains from max dots to min dots, and stop after printing 5 lines
-$ cat subs.txt | go run dlevel.go --silent --max-level --until-count 5
+$ cat subs.txt | dlevel --silent --max-level --until-count 5
 admin.prod.jenkins.grafana.api.support.login.target.com
 admin.prod.jenkins.grafana.api.support.target.com
 admin.prod.jenkins.grafana.api.target.com
@@ -93,13 +93,13 @@ admin.prod.jenkins.grafana.target.com
 admin.prod.jenkins.target.com
 
 # Print subdomains from max dots to min dots, and stop after reaching 6 level
-$ cat subs.txt | go run dlevel.go --silent --max-level --until-level 6
+$ cat subs.txt | dlevel --silent --max-level --until-level 6
 admin.prod.jenkins.grafana.api.support.login.target.com
 admin.prod.jenkins.grafana.api.support.target.com
 admin.prod.jenkins.grafana.api.target.com
 
 # Print subdomains from min dots to max dots
-$ cat subs.txt | go run dlevel.go --silent --min-level
+$ cat subs.txt | dlevel --silent --min-level
 example.com
 target.com
 prod.target.com
@@ -112,7 +112,7 @@ admin.prod.jenkins.grafana.api.support.target.com
 admin.prod.jenkins.grafana.api.support.login.target.com
 
 # Print subdomains from min dots to max dots, and stop after printing 5 lines
-$ cat subs.txt | go run dlevel.go --silent --min-level --until-count 5
+$ cat subs.txt | dlevel --silent --min-level --until-count 5
 example.com
 target.com
 prod.target.com
@@ -120,7 +120,7 @@ admin.target.com
 admin.prod.target.com
 
 # Print subdomains from min dots to max dots, and stop after reaching 6 level
-$ cat subs.txt | go run dlevel.go --silent --min-level --until-level 6
+$ cat subs.txt | dlevel --silent --min-level --until-level 6
 example.com
 target.com
 prod.target.com
