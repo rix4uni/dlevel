@@ -1,40 +1,132 @@
-# dlevel
+## dlevel
 
-<h4 align="center"><b>Filter list of subdomains by level.</b></h4><br>
+<h2 align="center"><b>Filter list of subdomains by level.</b></h2><br>
 
-![image](https://user-images.githubusercontent.com/72344025/234942102-74d5cf10-b582-4278-9645-81d5de770980.png)
+![dlevel](rix4uni_dlevel.png)
 
 ## Installation
 ```
-git clone https://github.com/rix4uni/dlevel.git && cd dlevel && chmod +x dlevel && mv dlevel /usr/bin/
+go install github.com/rix4uni/dlevel@latest
 ```
 
-## Via wget
+## Download prebuilt binaries
 ```
-wget https://raw.githubusercontent.com/rix4uni/dlevel/refs/heads/main/dlevel && chmod +x dlevel && mv dlevel /usr/bin/
+wget https://github.com/rix4uni/dlevel/releases/download/v0.0.2/dlevel-linux-amd64-0.0.2.tgz
+tar -xvzf dlevel-linux-amd64-0.0.2.tgz
+rm -rf dlevel-linux-amd64-0.0.2.tgz
+mv dlevel ~/go/bin/dlevel
+```
+Or download [binary release](https://github.com/rix4uni/dlevel/releases) for your platform.
+
+## Compile from source
+```
+git clone --depth 1 github.com/rix4uni/dlevel.git
+cd dlevel; go install
 ```
 
 ## Usage
+```
+Usage of dlevel:
+      --level string      Specify the subdomain levels (comma-separated) to filter
+      --max-level         Print subdomains from max dots to min dots
+      --min-level         Print subdomains from min dots to max dots
+      --silent            silent mode.
+      --until-count int   Stop after printing this many lines (default -1)
+      --until-level int   Stop after reaching this level (dot count) (default -1)
+      --version           Print the version of the tool and exit.
+```
+
+- `Level 1`: Print domains that have 1 dot (e.g., example.com).
+- `Level 2`: Print domains that have 2 dots (e.g., sub.example.com).
+
+## Usage Examples
 ```bash
-# Level 1, all subdomains
-$ cat subs.txt | dlevel -l 1
-mtnairborn.com
-mtnbusiness.com
+# Input
+$ cat subs.txt
+admin.prod.target.com
+example.com
+admin.prod.jenkins.grafana.api.support.login.target.com
+admin.prod.jenkins.target.com
+admin.prod.jenkins.grafana.api.target.com
+admin.prod.jenkins.grafana.target.com
+prod.target.com
+admin.prod.jenkins.grafana.api.support.target.com
+target.com
+admin.target.com
 
-# Level 2, all subdomains
-$ cat subs.txt | dlevel -l 2
-woolpack.mtnfootball.com
-wcu-csm.mtnfootball.com
-weirdnewsday.mtnfootball.com
+# Level 1, Single level
+$ cat subs.txt | go run dlevel.go --silent --level 1
+example.com
+target.com
 
-# Level 8, 2 subdomains
-$ cat subs.txt | dlevel -l 8 -f 2
-h2a4.n1.ips.mtn.co.ugmut-pts35k-1.mtn.co.ug
-h1bbd.n2.ips.mtn.co.ugmut-pts35k-1.mtn.co.ug
+# Level 2 and Level 3, Multiple levels comma-separated
+$ cat subs.txt | go run dlevel.go --silent --level 2,3
+prod.target.com
+admin.target.com
+admin.prod.target.com
 
-# All Highest Level subdomains -t not work with other options
-$ cat subs.txt | dlevel -t
-autodiscover.areeba.com.gnwimax-dns5.areeba.com.gn
-wimax-dns0.areeba.com.gnequitygroup.africadnsmaster.hotmtnpromo.com
-cnpr0-loc.lonestarcell.commtn-eschool.commtn-global.netexchange.mtn-ns.net
+# Level 3 and Level 2, Multiple levels comma-separated
+$ cat subs.txt | go run dlevel.go --silent --level 3,2
+admin.prod.target.com
+prod.target.com
+admin.target.com
+
+# Print subdomains from max dots to min dots
+$ cat subs.txt | go run dlevel.go --silent --max-level
+admin.prod.jenkins.grafana.api.support.login.target.com
+admin.prod.jenkins.grafana.api.support.target.com
+admin.prod.jenkins.grafana.api.target.com
+admin.prod.jenkins.grafana.target.com
+admin.prod.jenkins.target.com
+admin.prod.target.com
+prod.target.com
+admin.target.com
+example.com
+target.com
+
+# Print subdomains from max dots to min dots, and stop after printing 5 lines
+$ cat subs.txt | go run dlevel.go --silent --max-level --until-count 5
+admin.prod.jenkins.grafana.api.support.login.target.com
+admin.prod.jenkins.grafana.api.support.target.com
+admin.prod.jenkins.grafana.api.target.com
+admin.prod.jenkins.grafana.target.com
+admin.prod.jenkins.target.com
+
+# Print subdomains from max dots to min dots, and stop after reaching 6 level
+$ cat subs.txt | go run dlevel.go --silent --max-level --until-level 6
+admin.prod.jenkins.grafana.api.support.login.target.com
+admin.prod.jenkins.grafana.api.support.target.com
+admin.prod.jenkins.grafana.api.target.com
+
+# Print subdomains from min dots to max dots
+$ cat subs.txt | go run dlevel.go --silent --min-level
+example.com
+target.com
+prod.target.com
+admin.target.com
+admin.prod.target.com
+admin.prod.jenkins.target.com
+admin.prod.jenkins.grafana.target.com
+admin.prod.jenkins.grafana.api.target.com
+admin.prod.jenkins.grafana.api.support.target.com
+admin.prod.jenkins.grafana.api.support.login.target.com
+
+# Print subdomains from min dots to max dots, and stop after printing 5 lines
+$ cat subs.txt | go run dlevel.go --silent --min-level --until-count 5
+example.com
+target.com
+prod.target.com
+admin.target.com
+admin.prod.target.com
+
+# Print subdomains from min dots to max dots, and stop after reaching 6 level
+$ cat subs.txt | go run dlevel.go --silent --min-level --until-level 6
+example.com
+target.com
+prod.target.com
+admin.target.com
+admin.prod.target.com
+admin.prod.jenkins.target.com
+admin.prod.jenkins.grafana.target.com
+admin.prod.jenkins.grafana.api.target.com
 ```
