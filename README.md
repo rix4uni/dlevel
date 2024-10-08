@@ -9,6 +9,11 @@
 git clone https://github.com/rix4uni/dlevel.git && cd dlevel && chmod +x dlevel && mv dlevel /usr/bin/
 ```
 
+## Via wget
+```
+wget https://raw.githubusercontent.com/rix4uni/dlevel/refs/heads/main/dlevel && chmod +x dlevel && mv dlevel /usr/bin/
+```
+
 ## Usage
 ```bash
 # Level 1, all subdomains
